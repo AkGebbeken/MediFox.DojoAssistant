@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using MediFox.DojoAssistant.Enums;
+using MediFox.DojoAssistant.Exceptions;
 using Xunit;
 
 namespace MediFox.DojoAssistant.Tests
@@ -20,7 +21,8 @@ namespace MediFox.DojoAssistant.Tests
 		public void StartRound_IsRoundActive_ThrowInvalidOperationException()
 		{
 			var dojoAssistant = new DojoAssistant(60);
-			
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
 			dojoAssistant.StartRound();
 			
 			var dojoAction = new Action(() => dojoAssistant.StartRound());
@@ -29,9 +31,22 @@ namespace MediFox.DojoAssistant.Tests
 		}
 
 		[Fact]
+		public void StartRound_IsParticipantCountLessThanTwo_ThrowInvalidAmountException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			
+			var dojoAction = new Action(() => dojoAssistant.StartRound());
+			
+			dojoAction.Should().Throw<InvalidAmountException>();
+		}
+		
+		[Fact]
 		public void StartRound_IsRoundActive_DojoStateShouldBeActive()
 		{
 			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
 			dojoAssistant.StartRound();
 			
 			var currentDojoState = dojoAssistant.DojoState;
@@ -43,6 +58,8 @@ namespace MediFox.DojoAssistant.Tests
 		public void StartRound_IsRoundInacitve_RoundShouldStart()
 		{
 			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
 			
 			dojoAssistant.StartRound();
 			

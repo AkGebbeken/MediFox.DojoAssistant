@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MediFox.DojoAssistant.Enums;
+using MediFox.DojoAssistant.Exceptions;
 
 namespace MediFox.DojoAssistant
 {
 	public class DojoAssistant
 	{
+		private readonly List<string> _participants = new List<string>();
 		private readonly int _roundTimeInSeconds;
+		
+		public IReadOnlyCollection<string> Participants => _participants.AsReadOnly();
 		
 		public State DojoState { get; private set; }
 		
@@ -23,9 +29,34 @@ namespace MediFox.DojoAssistant
 			{
 				throw new InvalidOperationException();
 			}
+			
+			if (_participants.Count <= 1)
+			{
+				throw new InvalidAmountException();
+			}
 
 			DojoState = State.Active;
 			IsRoundActive = true;
+		}
+		
+		public void AddParticipant(string participantName)
+		{
+			if (DojoState == State.Active)
+			{
+				throw new InvalidOperationException();
+			}
+
+			if (string.IsNullOrWhiteSpace(participantName))
+			{
+				throw new ArgumentException();
+			}
+
+			if (Participants.Contains(participantName))
+			{
+				throw new InvalidNameException();
+			}
+			
+			_participants.Add(participantName);
 		}
 	}
 }
