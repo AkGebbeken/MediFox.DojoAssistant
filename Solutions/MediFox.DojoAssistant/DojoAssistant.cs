@@ -1,4 +1,5 @@
-﻿using MediFox.DojoAssistant.Enums;
+﻿using System;
+using MediFox.DojoAssistant.Enums;
 
 namespace MediFox.DojoAssistant
 {
@@ -8,10 +9,23 @@ namespace MediFox.DojoAssistant
 		
 		public State DojoState { get; private set; }
 		
+		public bool IsRoundActive { get; private set; }
+		
 		public DojoAssistant(int roundTimeInSeconds)
 		{
 			_roundTimeInSeconds = roundTimeInSeconds;
 			DojoState = State.Idle;
+		}
+
+		public void StartRound()
+		{
+			if (IsRoundActive)
+			{
+				throw new InvalidOperationException();
+			}
+
+			DojoState = State.Active;
+			IsRoundActive = true;
 		}
 	}
 }
