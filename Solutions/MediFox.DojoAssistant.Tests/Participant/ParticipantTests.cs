@@ -53,5 +53,30 @@ namespace MediFox.DojoAssistant.Tests.Participant
 
 			dojoAction.Should().Throw<InvalidNameException>();
 		}
+
+		[Fact]
+		public void RemoveParticipants_IfDojoStateIsActive_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			var dojoAction = new Action(() => dojoAssistant.RemoveParticipants());
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void RemoveParticipants_IfDojoStateIsIdle_ParticipantsShouldBeRemoved()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			
+			dojoAssistant.RemoveParticipants();
+
+			dojoAssistant.Participants.Should().BeEmpty();
+		}
 	}
 }
