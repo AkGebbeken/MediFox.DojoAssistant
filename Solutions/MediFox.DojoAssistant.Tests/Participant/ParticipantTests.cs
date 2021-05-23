@@ -115,5 +115,18 @@ namespace MediFox.DojoAssistant.Tests.Participant
 
 			dojoAssistant.Participants.Should().BeEmpty();
 		}
+
+		[Fact]
+		public void ShuffleParticipants_IfDojoStateIsAcitve_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			var dojoAction = new Action(() => dojoAssistant.ShuffleParticipants());
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
 	}
 }

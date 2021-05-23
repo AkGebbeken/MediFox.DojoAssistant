@@ -83,5 +83,13 @@ namespace MediFox.DojoAssistant
 			
 			_participants.Clear();
 		}
+
+		public void ShuffleParticipants()
+		{
+			if (DojoState == State.Active)
+			{
+				throw new InvalidOperationException();
+			}
+		}
 	}
 }
