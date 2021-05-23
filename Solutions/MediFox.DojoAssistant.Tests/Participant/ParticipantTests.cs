@@ -55,6 +55,43 @@ namespace MediFox.DojoAssistant.Tests.Participant
 		}
 
 		[Fact]
+		public void RemoveParticipant_IfDojoStateisActive_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			var dojoAction = new Action(() => dojoAssistant.RemoveParticipant("Jane Doe"));
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void RemoveParticipant_IfDojoStateisIdle_ParticipantShouldBeRemoved()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			
+			dojoAssistant.RemoveParticipant("Jane Doe");
+
+			dojoAssistant.Participants.Should().NotContain("Jane Doe");
+		}
+
+		[Fact]
+		public void RemoveParticipant_IfParticipantNotExits_ThrowInvalidNameException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("Jone Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+
+			var dojoAction = new Action(() => dojoAssistant.RemoveParticipant("Richard Doe"));
+
+			dojoAction.Should().Throw<InvalidNameException>();
+		}
+		
+		[Fact]
 		public void RemoveParticipants_IfDojoStateIsActive_ThrowInvalidOperationException()
 		{
 			var dojoAssistant = new DojoAssistant(60);

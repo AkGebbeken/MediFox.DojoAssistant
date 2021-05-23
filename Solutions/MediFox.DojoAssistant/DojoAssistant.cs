@@ -59,6 +59,21 @@ namespace MediFox.DojoAssistant
 			_participants.Add(participantName);
 		}
 
+		public void RemoveParticipant(string participantName)
+		{
+			if (DojoState == State.Active)
+			{
+				throw new InvalidOperationException();
+			}
+
+			if (_participants.Contains(participantName) == false)
+			{
+				throw new InvalidNameException();
+			}
+			
+			_participants.Remove(participantName);
+		}
+		
 		public void RemoveParticipants()
 		{
 			if (DojoState == State.Active)

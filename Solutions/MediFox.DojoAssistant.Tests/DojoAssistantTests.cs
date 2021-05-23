@@ -31,17 +31,6 @@ namespace MediFox.DojoAssistant.Tests
 		}
 
 		[Fact]
-		public void StartRound_IsParticipantCountLessThanTwo_ThrowInvalidAmountException()
-		{
-			var dojoAssistant = new DojoAssistant(60);
-			dojoAssistant.AddParticipant("John Doe");
-			
-			var dojoAction = new Action(() => dojoAssistant.StartRound());
-			
-			dojoAction.Should().Throw<InvalidAmountException>();
-		}
-		
-		[Fact]
 		public void StartRound_IsRoundActive_DojoStateShouldBeActive()
 		{
 			var dojoAssistant = new DojoAssistant(60);
@@ -53,7 +42,7 @@ namespace MediFox.DojoAssistant.Tests
 
 			currentDojoState.Should().Be(State.Active);
 		}
-
+		
 		[Fact]
 		public void StartRound_IsRoundInacitve_RoundShouldStart()
 		{
@@ -64,6 +53,17 @@ namespace MediFox.DojoAssistant.Tests
 			dojoAssistant.StartRound();
 			
 			dojoAssistant.IsRoundActive.Should().BeTrue();
+		}
+		
+		[Fact]
+		public void StartRound_IsParticipantCountLessThanTwo_ThrowInvalidAmountException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			
+			var dojoAction = new Action(() => dojoAssistant.StartRound());
+			
+			dojoAction.Should().Throw<InvalidAmountException>();
 		}
 	}
 }
