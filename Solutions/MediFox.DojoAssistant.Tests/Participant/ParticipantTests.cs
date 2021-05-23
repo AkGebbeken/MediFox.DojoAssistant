@@ -131,7 +131,7 @@ namespace MediFox.DojoAssistant.Tests.Participant
 		}
 
 		[Fact]
-		public void ShuffleParticipants_IfDojoStateIsIdle_ParticipantsShouldBeShuffeled()
+		public void ShuffleParticipants_IfDojoStateIsIdle_ParticipantsShouldBeShuffled()
 		{
 			var dojoAssistant = new DojoAssistant(60);
 			dojoAssistant.AddParticipant("John Doe");
