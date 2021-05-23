@@ -90,6 +90,19 @@ namespace MediFox.DojoAssistant
 			{
 				throw new InvalidOperationException();
 			}
+
+			var participantCount = Participants.Count;
+			var randomValue = new Random();
+
+			for (var i = 0; i < participantCount; i++)
+			{
+				var participantToSwap = randomValue.Next(participantCount);
+				var participantForSwap = randomValue.Next(participantCount);
+				var participantTemp = _participants[participantToSwap];
+
+				_participants[participantToSwap] = _participants[participantForSwap];
+				_participants[participantForSwap] = participantTemp;
+			}
 		}
 	}
 }

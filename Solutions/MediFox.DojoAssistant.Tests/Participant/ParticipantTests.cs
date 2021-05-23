@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using MediFox.DojoAssistant.Exceptions;
@@ -127,6 +128,26 @@ namespace MediFox.DojoAssistant.Tests.Participant
 			var dojoAction = new Action(() => dojoAssistant.ShuffleParticipants());
 
 			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void ShuffleParticipants_IfDojoStateIsIdle_ParticipantsShouldBeShuffeled()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.AddParticipant("Richard Doe");
+
+			var originalParticipantSequence = new List<string>(dojoAssistant.Participants);
+			var participantSequenceIsEqual = true;
+
+			for (var i = 0; i < 100 && participantSequenceIsEqual; i++)
+			{
+				dojoAssistant.ShuffleParticipants();
+				participantSequenceIsEqual = originalParticipantSequence.SequenceEqual(dojoAssistant.Participants);
+			}
+
+			participantSequenceIsEqual.Should().BeFalse();
 		}
 	}
 }
