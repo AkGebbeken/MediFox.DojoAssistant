@@ -30,7 +30,7 @@ namespace MediFox.DojoAssistant.Tests.Participant
 			
 			dojoAssistant.AddParticipant(participantName);
 			var dojoContainsParticipant = dojoAssistant.Participants.Contains(participantName);
-
+			
 			dojoContainsParticipant.Should().BeTrue();
 		}
 
@@ -76,8 +76,9 @@ namespace MediFox.DojoAssistant.Tests.Participant
 			dojoAssistant.AddParticipant("Jane Doe");
 			
 			dojoAssistant.RemoveParticipant("Jane Doe");
-
-			dojoAssistant.Participants.Should().NotContain("Jane Doe");
+			var participants = dojoAssistant.Participants;
+			
+			participants.Should().NotContain("Jane Doe");
 		}
 
 		[Fact]
@@ -113,8 +114,9 @@ namespace MediFox.DojoAssistant.Tests.Participant
 			dojoAssistant.AddParticipant("Jane Doe");
 			
 			dojoAssistant.RemoveParticipants();
+			var participants = dojoAssistant.Participants;
 
-			dojoAssistant.Participants.Should().BeEmpty();
+			participants.Should().BeEmpty();
 		}
 
 		[Fact]

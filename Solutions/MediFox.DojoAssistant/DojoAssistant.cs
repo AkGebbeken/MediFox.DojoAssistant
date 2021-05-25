@@ -19,6 +19,9 @@ namespace MediFox.DojoAssistant
 		public State DojoState { get; private set; }
 		
 		public bool IsRoundActive { get; private set; }
+		public bool IsRoundPaused { get; private set; }
+		
+		public int RemainingTimeInSeconds { get; private set; }
 		
 		private Timer Timer { get; set; }
 		
@@ -47,6 +50,20 @@ namespace MediFox.DojoAssistant
 			
 			_startTime = DateTime.Now;
 			Timer.Start();
+		}
+
+		public void PauseRound()
+		{
+			if (IsRoundActive == false)
+			{
+				throw new InvalidOperationException();
+			}
+
+			RemainingTimeInSeconds = GetRemainingTimeInSeconds();
+			Timer.Stop();
+			
+			IsRoundPaused = true;
+			IsRoundActive = false;
 		}
 		
 		public void AddParticipant(string participantName)

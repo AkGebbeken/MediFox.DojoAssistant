@@ -51,8 +51,9 @@ namespace MediFox.DojoAssistant.Tests
 			dojoAssistant.AddParticipant("Jane Doe");
 			
 			dojoAssistant.StartRound();
+			var isRoundAcitve = dojoAssistant.IsRoundActive;
 			
-			dojoAssistant.IsRoundActive.Should().BeTrue();
+			isRoundAcitve.Should().BeTrue();
 		}
 		
 		[Fact]
@@ -64,6 +65,30 @@ namespace MediFox.DojoAssistant.Tests
 			var dojoAction = new Action(() => dojoAssistant.StartRound());
 			
 			dojoAction.Should().Throw<InvalidAmountException>();
+		}
+
+		[Fact]
+		public void PauseRound_IsRoundInactive_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+
+			var dojoAction = new Action(() => dojoAssistant.PauseRound());
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void PauseRound_IsRoundActive_IsRoundPausedShouldBeTrue()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			dojoAssistant.PauseRound();
+			var isRoundPaused = dojoAssistant.IsRoundPaused;
+			
+			isRoundPaused.Should().BeTrue();
 		}
 
 		[Fact]
@@ -81,7 +106,7 @@ namespace MediFox.DojoAssistant.Tests
 		{
 			var dojoAssistant = new DojoAssistant(60);
 			dojoAssistant.AddParticipant("John Doe");
-			dojoAssistant.AddParticipant("JaneDoe");
+			dojoAssistant.AddParticipant("Jane Doe");
 			dojoAssistant.StartRound();
 
 			var remainingTimeInSeconds = dojoAssistant.GetRemainingTimeInSeconds();
