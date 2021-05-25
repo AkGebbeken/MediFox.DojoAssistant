@@ -42,7 +42,7 @@ namespace MediFox.DojoAssistant.Tests
 
 			currentDojoState.Should().Be(State.Active);
 		}
-		
+
 		[Fact]
 		public void StartRound_IsRoundInacitve_RoundShouldStart()
 		{
@@ -89,6 +89,62 @@ namespace MediFox.DojoAssistant.Tests
 			var isRoundPaused = dojoAssistant.IsRoundPaused;
 			
 			isRoundPaused.Should().BeTrue();
+		}
+
+		[Fact]
+		public void PauseRound_IsRoundPaused_RemainingTimeInSecondsShouldNotBeZero()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			dojoAssistant.PauseRound();
+			var remainingTimeInSeconds = dojoAssistant.RemainingTimeInSeconds;
+
+			remainingTimeInSeconds.Should().NotBe(0);
+		}
+
+		[Fact]
+		public void PauseRound_IsRoundPaused_TimerShouldBeStopped()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+			
+			dojoAssistant.PauseRound();
+			var isTimerStopped = dojoAssistant.GetRemainingTimeInSeconds() == 0;
+
+			isTimerStopped.Should().BeTrue();
+		}
+
+		[Fact]
+		public void ResumeRound_IsRoundNotPaused_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			var dojoAction = new Action(() => dojoAssistant.ResumeRound());
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void ResumeRound_IsRoundPaused_RoundShouldStart()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+			dojoAssistant.PauseRound();
+			
+			dojoAssistant.ResumeRound();
+			var isRoundActive = dojoAssistant.IsRoundActive;
+
+			isRoundActive.Should().BeTrue();
 		}
 
 		[Fact]

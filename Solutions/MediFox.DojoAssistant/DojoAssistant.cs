@@ -65,6 +65,23 @@ namespace MediFox.DojoAssistant
 			IsRoundPaused = true;
 			IsRoundActive = false;
 		}
+
+		public void ResumeRound()
+		{
+			if (IsRoundPaused == false)
+			{
+				throw new InvalidOperationException();
+			}
+
+			_startTime = DateTime.Now;
+			
+			Timer.Interval = RemainingTimeInSeconds;
+			Timer.Start();
+			
+			IsRoundPaused = false;
+			IsRoundActive = true;
+			
+		}
 		
 		public void AddParticipant(string participantName)
 		{
