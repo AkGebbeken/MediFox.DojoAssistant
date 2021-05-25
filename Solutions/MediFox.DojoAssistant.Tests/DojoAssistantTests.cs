@@ -65,5 +65,28 @@ namespace MediFox.DojoAssistant.Tests
 			
 			dojoAction.Should().Throw<InvalidAmountException>();
 		}
+
+		[Fact]
+		public void GetRemainingTimeInSeconds_IsRoundInactive_RemainingTimeShouldBeZero()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+
+			var isRemainingTimeZero = dojoAssistant.GetRemainingTimeInSeconds() == 0;
+
+			isRemainingTimeZero.Should().BeTrue();
+		}
+
+		[Fact]
+		public void GetRemainingTimeInSeconds_IsRoundActive_RemainingTimeShouldBeLessThanStartTime()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("JaneDoe");
+			dojoAssistant.StartRound();
+
+			var remainingTimeInSeconds = dojoAssistant.GetRemainingTimeInSeconds();
+
+			remainingTimeInSeconds.Should().BeInRange(1, 60);
+		}
 	}
 }

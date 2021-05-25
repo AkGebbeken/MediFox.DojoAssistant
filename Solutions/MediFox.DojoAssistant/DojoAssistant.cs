@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using MediFox.DojoAssistant.Enums;
 using MediFox.DojoAssistant.Exceptions;
 
@@ -10,6 +11,8 @@ namespace MediFox.DojoAssistant
 	{
 		private readonly List<string> _participants = new List<string>();
 		private readonly int _roundTimeInSeconds;
+
+		private DateTime _startTime;
 		
 		public IReadOnlyCollection<string> Participants => _participants.AsReadOnly();
 		
@@ -17,10 +20,14 @@ namespace MediFox.DojoAssistant
 		
 		public bool IsRoundActive { get; private set; }
 		
+		private Timer Timer { get; set; }
+		
 		public DojoAssistant(int roundTimeInSeconds)
 		{
 			_roundTimeInSeconds = roundTimeInSeconds;
 			DojoState = State.Idle;
+
+			Timer = new Timer {Interval = _roundTimeInSeconds * 1000};
 		}
 
 		public void StartRound()
@@ -37,6 +44,9 @@ namespace MediFox.DojoAssistant
 
 			DojoState = State.Active;
 			IsRoundActive = true;
+			
+			_startTime = DateTime.Now;
+			Timer.Start();
 		}
 		
 		public void AddParticipant(string participantName)
@@ -103,6 +113,19 @@ namespace MediFox.DojoAssistant
 				_participants[participantToSwap] = _participants[participantForSwap];
 				_participants[participantForSwap] = participantTemp;
 			}
+		}
+
+		public int GetRemainingTimeInSeconds()
+		{
+			if (IsRoundActive == false)
+			{
+				return 0;
+			}
+
+			var elapsedTime = DateTime.Now - _startTime;
+			var remainingTimeInSeconds = Timer.Interval / 1000 - elapsedTime.TotalSeconds;
+
+			return Convert.ToInt32(remainingTimeInSeconds);
 		}
 	}
 }
