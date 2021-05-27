@@ -45,6 +45,32 @@ namespace MediFox.DojoAssistant.Tests
 		}
 
 		[Fact]
+		public void StartRound_IsRoundActive_PilotShouldBeSet()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+
+			dojoAssistant.StartRound();
+			var pilot = dojoAssistant.Pilot;
+
+			pilot.Should().Be("John Doe");
+		}
+		
+		[Fact]
+		public void StartRound_IsRoundActive_CoPilotShouldBeSet()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+
+			dojoAssistant.StartRound();
+			var pilot = dojoAssistant.CoPilot;
+
+			pilot.Should().Be("Jane Doe");
+		}
+
+		[Fact]
 		public void StartRound_IsRoundInacitve_RoundShouldStart()
 		{
 			var dojoAssistant = new DojoAssistant(60);

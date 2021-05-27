@@ -24,9 +24,27 @@ namespace MediFox.DojoAssistant
 		
 		public int RemainingTimeInSeconds { get; private set; }
 		
+		public string Pilot
+		{
+			get 
+			{ 
+				var pilotIndex = _roundCounter % _participants.Count; 
+				return _participants[pilotIndex];
+			}
+		}
+		
+		public string CoPilot 
+		{
+			get
+			{
+				var coPilotIndex = (_roundCounter + 1) % _participants.Count;
+				return _participants[coPilotIndex];
+			}
+		}
+		
 		private Timer Timer { get; set; }
 		
-		public event EventHandler RoundEnded;
+		public event EventHandler RoundEnded = null!;
 		
 		public DojoAssistant(int roundTimeInSeconds)
 		{
