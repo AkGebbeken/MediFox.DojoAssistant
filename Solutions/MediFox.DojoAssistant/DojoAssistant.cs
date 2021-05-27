@@ -13,6 +13,7 @@ namespace MediFox.DojoAssistant
 		private readonly int _roundTimeInSeconds;
 
 		private DateTime _startTime;
+		private int _roundCounter;
 		
 		public IReadOnlyCollection<string> Participants => _participants.AsReadOnly();
 		
@@ -25,12 +26,15 @@ namespace MediFox.DojoAssistant
 		
 		private Timer Timer { get; set; }
 		
+		public event EventHandler RoundEnded;
+		
 		public DojoAssistant(int roundTimeInSeconds)
 		{
 			_roundTimeInSeconds = roundTimeInSeconds;
 			DojoState = State.Idle;
 
 			Timer = new Timer {Interval = _roundTimeInSeconds * 1000};
+			Timer.Elapsed += TimerElapsedEvent;
 		}
 
 		public void StartRound()
@@ -160,6 +164,18 @@ namespace MediFox.DojoAssistant
 			var remainingTimeInSeconds = Timer.Interval / 1000 - elapsedTime.TotalSeconds;
 
 			return Convert.ToInt32(remainingTimeInSeconds);
+		}
+
+		private void TimerElapsedEvent(object sender, ElapsedEventArgs args)
+		{
+			RemainingTimeInSeconds = 0;
+			IsRoundActive = false;
+			_roundCounter++;
+			
+			Timer.Stop();
+			Timer.Interval = _roundTimeInSeconds;
+			
+			RoundEnded?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

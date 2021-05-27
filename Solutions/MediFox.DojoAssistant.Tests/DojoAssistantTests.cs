@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using FluentAssertions;
 using MediFox.DojoAssistant.Enums;
 using MediFox.DojoAssistant.Exceptions;
@@ -168,6 +169,20 @@ namespace MediFox.DojoAssistant.Tests
 			var remainingTimeInSeconds = dojoAssistant.GetRemainingTimeInSeconds();
 
 			remainingTimeInSeconds.Should().BeInRange(1, 60);
+		}
+
+		[Fact]
+		public void IsRoundActive_IsRoundOver_IsRoundActiveShouldBeFalse()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			Thread.Sleep(70000);
+			var isRoundActive = dojoAssistant.IsRoundActive;
+
+			isRoundActive.Should().BeFalse();
 		}
 	}
 }
