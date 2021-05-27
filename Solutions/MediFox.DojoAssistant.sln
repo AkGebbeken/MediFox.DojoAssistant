@@ -1,7 +1,21 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediFox.DojoAssistant", "MediFox.DojoAssistant\MediFox.DojoAssistant.csproj", "{D72D4EF1-77E5-4219-818F-5B489CD299BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediFox.DojoAssistant.Tests", "MediFox.DojoAssistant.Tests\MediFox.DojoAssistant.Tests.csproj", "{E48B3FAA-C468-4D65-9850-EB22FA1FF206}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D72D4EF1-77E5-4219-818F-5B489CD299BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D72D4EF1-77E5-4219-818F-5B489CD299BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D72D4EF1-77E5-4219-818F-5B489CD299BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D72D4EF1-77E5-4219-818F-5B489CD299BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E48B3FAA-C468-4D65-9850-EB22FA1FF206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E48B3FAA-C468-4D65-9850-EB22FA1FF206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E48B3FAA-C468-4D65-9850-EB22FA1FF206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E48B3FAA-C468-4D65-9850-EB22FA1FF206}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
