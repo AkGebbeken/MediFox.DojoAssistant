@@ -56,7 +56,7 @@ namespace MediFox.DojoAssistant.Tests.Participant
 		}
 
 		[Fact]
-		public void RemoveParticipant_IfDojoStateisActive_ThrowInvalidOperationException()
+		public void RemoveParticipant_IfDojoStateIsActive_ThrowInvalidOperationException()
 		{
 			var dojoAssistant = new DojoAssistant(60);
 			dojoAssistant.AddParticipant("John Doe");
