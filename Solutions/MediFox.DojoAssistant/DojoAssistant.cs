@@ -104,7 +104,18 @@ namespace MediFox.DojoAssistant
 			IsRoundActive = true;
 			
 		}
-		
+
+		public void SkipRound()
+		{
+			if (IsRoundPaused == false)
+			{
+				throw new InvalidOperationException();
+			}
+
+			IsRoundPaused = false;
+			TimerElapsedEvent(null, null);
+		}
+
 		public void AddParticipant(string participantName)
 		{
 			if (DojoState == State.Active)
@@ -184,7 +195,7 @@ namespace MediFox.DojoAssistant
 			return Convert.ToInt32(remainingTimeInSeconds);
 		}
 
-		private void TimerElapsedEvent(object sender, ElapsedEventArgs args)
+		private void TimerElapsedEvent(object? sender, ElapsedEventArgs? args)
 		{
 			RemainingTimeInSeconds = 0;
 			IsRoundActive = false;

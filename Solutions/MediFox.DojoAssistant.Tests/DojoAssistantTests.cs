@@ -52,9 +52,9 @@ namespace MediFox.DojoAssistant.Tests
 			dojoAssistant.AddParticipant("Jane Doe");
 
 			dojoAssistant.StartRound();
-			var pilot = dojoAssistant.Pilot;
+			var pilotName = dojoAssistant.Pilot;
 
-			pilot.Should().Be("John Doe");
+			pilotName.Should().Be("John Doe");
 		}
 		
 		[Fact]
@@ -65,9 +65,9 @@ namespace MediFox.DojoAssistant.Tests
 			dojoAssistant.AddParticipant("Jane Doe");
 
 			dojoAssistant.StartRound();
-			var pilot = dojoAssistant.CoPilot;
+			var pilotName = dojoAssistant.CoPilot;
 
-			pilot.Should().Be("Jane Doe");
+			pilotName.Should().Be("Jane Doe");
 		}
 
 		[Fact]
@@ -172,6 +172,34 @@ namespace MediFox.DojoAssistant.Tests
 			var isRoundActive = dojoAssistant.IsRoundActive;
 
 			isRoundActive.Should().BeTrue();
+		}
+
+		[Fact]
+		public void SkipRound_IsRoundNotPaused_ThrowInvalidOperationException()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+
+			var dojoAction = new Action(() => dojoAssistant.SkipRound());
+
+			dojoAction.Should().Throw<InvalidOperationException>();
+		}
+
+		[Fact]
+		public void SkipRound_IsRoundPaused_RoundShouldBeSkipped()
+		{
+			var dojoAssistant = new DojoAssistant(60);
+			dojoAssistant.AddParticipant("John Doe");
+			dojoAssistant.AddParticipant("Jane Doe");
+			dojoAssistant.StartRound();
+			dojoAssistant.PauseRound();
+			
+			dojoAssistant.SkipRound();
+			var pilotName = dojoAssistant.Pilot;
+
+			pilotName.Should().Be("Jane Doe");
 		}
 
 		[Fact]
