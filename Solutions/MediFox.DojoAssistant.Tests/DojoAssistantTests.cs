@@ -216,7 +216,7 @@ namespace MediFox.DojoAssistant.Tests
 		}
 
 		[Fact]
-		public void EndDojo_IsRoundPaused_DojoStateShouldBeSetToIdle()
+		public void EndDojo_IsRoundInactive_DojoStateShouldBeSetToIdle()
 		{
 			var dojoAssistant = new DojoAssistant(60);
 			dojoAssistant.AddParticipant("John Doe");
@@ -224,23 +224,6 @@ namespace MediFox.DojoAssistant.Tests
 			dojoAssistant.StartRound();
 			dojoAssistant.PauseRound();
 
-			dojoAssistant.EndDojo();
-			var dojoState = dojoAssistant.DojoState;
-
-			dojoState.Should().Be(State.Idle);
-		}
-		
-		[Fact]
-		public void EndDojo_IsRoundOver_DojoStateShouldBeSetToIdle()
-		{
-			var dojoAssistant = new DojoAssistant(60);
-			dojoAssistant.AddParticipant("John Doe");
-			dojoAssistant.AddParticipant("Jane Doe");
-			dojoAssistant.StartRound();
-			dojoAssistant.PauseRound();
-
-			Thread.Sleep(70000);
-			
 			dojoAssistant.EndDojo();
 			var dojoState = dojoAssistant.DojoState;
 
