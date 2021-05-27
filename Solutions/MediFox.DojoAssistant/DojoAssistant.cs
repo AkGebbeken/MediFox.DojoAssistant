@@ -116,6 +116,16 @@ namespace MediFox.DojoAssistant
 			TimerElapsedEvent(null, null);
 		}
 
+		public void EndDojo()
+		{
+			if (IsRoundActive)
+			{
+				throw new InvalidOperationException();
+			}
+
+			DojoState = State.Idle;
+		}
+		
 		public void AddParticipant(string participantName)
 		{
 			if (DojoState == State.Active)
